@@ -14,19 +14,33 @@ class ScrapboxTest < Minitest::Test
     
     pages = project.pages
     assert pages.class == Hash
+    assert pages.values[0].class == Scrapbox::Page
+  end
+
+  def test_page
+    project = Scrapbox::Project.new("GitHelp")
     
     page = project.pages['args']
     text = page.text
     assert text.class == String
     assert text.length > 0
     
+    page = Scrapbox::Page.new("GitHelp","args")
+    text = page.text
+    assert text.class == String
+    assert text.length > 0
+
     page = Scrapbox::Page.new(project,"args")
     text = page.text
     assert text.class == String
     assert text.length > 0
+  end
+
+  def test_code
+    project = Scrapbox::Project.new("GitHelp")
+    page = project.pages['args']
     code = page.code("args.rb")
     assert code.class == String
     assert code.length > 0
   end
 end
-

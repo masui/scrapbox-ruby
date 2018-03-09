@@ -4,7 +4,11 @@ module Scrapbox
     attr_reader :title, :project
     
     def initialize(project,title)
-      @project = project
+      if project.class == String
+        @project = Project.new(project)
+      else
+        @project = project
+      end
       @title = title
       @text = nil
       @code = nil
