@@ -1,5 +1,3 @@
-# $:.unshift File.expand_path '.', File.dirname(__FILE__) # ???
-
 require "test_helper"
 
 class ScrapboxTest < Minitest::Test
@@ -9,9 +7,19 @@ class ScrapboxTest < Minitest::Test
 
   def test_project
     project = Scrapbox::Project.new("GitHelp")
+    titles = project.titles
+    assert titles.class == Array
+    assert titles.length > 0
+    assert titles[0].class == String
+    
     pages = project.pages
-    assert pages.class == Array
-    assert pages.length > 0
+    assert pages.class == Hash
+    
+    page = project.pages['args']
+    text = page.text
+    assert text.class == String
+    assert text.length > 0
+    
     page = Scrapbox::Page.new(project,"args")
     text = page.text
     assert text.class == String

@@ -6,18 +6,30 @@ module Scrapbox
     def initialize(name,host='https://scrapbox.io')
       @name = name
       @host = host
+      @titles = nil
       @pages = nil
     end
 
-    def pages
+    def titles
       data = Scrapbox.__getsbdata("#{@host}/api/pages/#{@name}")
-      unless @pages
-        @pages = JSON.parse(data)['pages'].collect { |page|
+      unless @titles
+        @titles = JSON.parse(data)['pages'].collect { |page|
           page['title']
+        }
+      end
+      @titles
+    end
+
+    def pages
+      unless @pages
+        @pages = {}
+        titles.each { |title|
+          page = Scrapbox::Page.new(self,title)
+          @pages[title] = page
         }
       end
       @pages
     end
   end
-
+  
 end
