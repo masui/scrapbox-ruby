@@ -42,5 +42,9 @@ class ScrapboxTest < Minitest::Test
     code = page.code("args.rb")
     assert code.class == String
     assert code.length > 0
+    
+    code = Scrapbox::Page.new("GitHelp","args").code("args.rb")
+    assert code.class == String
+    assert code.length > 0
   end
 end
